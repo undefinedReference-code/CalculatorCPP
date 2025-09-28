@@ -1,14 +1,31 @@
 cmake_minimum_required(VERSION 3.15)
 project(CalculatorProject LANGUAGES CXX)
 
-# 全局设置
 set(CMAKE_CXX_STANDARD 17)
-include_directories(include)  # 全局头文件路径
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# 启用测试开关（默认ON）
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Debug)
+endif()
+
+include_directories(include)
+
 option(BUILD_TESTING "Enable tests" ON)
-enable_testing()
 
-# 添加子目录
+if(BUILD_TESTING)
+    enable_testing()
+endif()
+
 add_subdirectory(src)
-add_subdirectory(tests)  # 测试目录有条件构建
+
+if(BUILD_TESTING)
+    add_subdirectory(tests)
+endif()
+
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    message(STATUS "Debug build configured. You can debug calculator_app executable.")
+    message(STATUS "Main executable: ${CMAKE_CURRENT_BINARY_DIR}/src/calculator_app")
+    if(BUILD_TESTING)
+        message(STATUS "Test executable: ${CMAKE_CURRENT_BINARY_DIR}/tests/calculator_tests")
+    endif()
+endif()
