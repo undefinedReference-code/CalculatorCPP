@@ -86,6 +86,11 @@ double calculate(std::vector<std::string> equation) {
 
 	for (int i = 0; i < equation.size(); i++) {
 		std::string token = equation[i];
+
+		if (token[0] == '-' && (i==0 || equation[i-1][0] == '(') ){
+			numberStack.push_back(0);
+		}
+
 		if (operatorList.find(token[0]) == operatorList.end()) {
 			numberStack.push_back(std::stod(token));
 		}
@@ -121,5 +126,6 @@ double calculate(std::vector<std::string> equation) {
 
 int main() {
 	auto a = tokenizer("4 + (1+2) * 3");
+	a = tokenizer("1-(     -2)");
 	std::cout << calculate(a);
 }
