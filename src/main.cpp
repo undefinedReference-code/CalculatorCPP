@@ -35,6 +35,10 @@ std::vector<std::string> tokenizer(std::string s) {
 		}
 	}
 
+	if (!buffer.empty()) {
+		res.push_back(buffer);
+	}
+
 	return res;
 }
 
@@ -89,13 +93,13 @@ double calculate(std::vector<std::string> equation) {
 			if (token[0] == '(')
 				operatorStack.push_back('(');
 			else if (token[0] == ')') {
-				while (!operatorStack.empty() && operatorStack.front() != '(') {
+				while (!operatorStack.empty() && operatorStack.back() != '(') {
 					PopTopOperation(numberStack, operatorStack);
 				}
 				operatorStack.pop_back();
 			}
 			else {
-				if (operatorList[token[0]] <= operatorList[operatorStack.back()]) {
+				if (!operatorStack.empty() && operatorList[token[0]] <= operatorList[operatorStack.back()]) {
 					PopTopOperation(numberStack, operatorStack);
 				}
 				else {
