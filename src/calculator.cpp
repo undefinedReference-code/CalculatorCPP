@@ -107,9 +107,7 @@ double calculate(std::vector<std::string> equation) {
                 if (!operatorStack.empty() && operatorList[token[0]] <= operatorList[operatorStack.back()]) {
                     PopTopOperation(numberStack, operatorStack);
                 }
-                else {
-                    operatorStack.push_back(token[0]);
-                }
+                 operatorStack.push_back(token[0]);
             }
         }
     }
